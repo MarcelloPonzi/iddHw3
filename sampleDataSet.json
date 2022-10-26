@@ -1,0 +1,141 @@
+[{
+  "_id" : "MongoDB internal id",
+  "className" : "Used by Morphia to map with entities",
+  "id" : "http://dbpedia.org/resource/Film_belli",
+  "cells" : [
+    {
+      "className" : "Used by Morphia to map with entities",
+      "innerHTML" : "HTML code of the cell",
+      "isHeader" : "true if this cell is a header",
+      "type" : "Old unused field",
+      "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
+      "cleanedText" : "Harry Potter e il calice di fuoco - Mike Newell"
+    },
+    {
+      "className" : "Used by Morphia to map with entities",
+      "innerHTML" : "HTML code of the cell",
+      "isHeader" : "true if this cell is a header",
+      "type" : "Old unused field",
+      "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
+      "cleanedText" : "Il padrino - Francis Ford Coppola"
+    },
+    {
+      "className" : "Used by Morphia to map with entities",
+      "innerHTML" : "HTML code of the cell",
+      "isHeader" : "true if this cell is a header",
+      "type" : "Old unused field",
+      "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
+      "cleanedText" : "Il gattopardo - Luchino Visconti"
+    },
+    {
+      "className" : "Used by Morphia to map with entities",
+      "innerHTML" : "HTML code of the cell",
+      "isHeader" : "true if this cell is a header",
+      "type" : "Old unused field",
+      "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
+      "cleanedText" : "La favorita - Yorgos Lanthimos"
+    }
+  ],
+  "beginIndex" : "Field from the dump by DBpedia",
+  "endIndex" : "Field from the dump by DBpedia",
+  !!!"referenceContext" : "Film belli",
+  "type" : "Field from the dump by DBpedia",
+  "classe" : "Field from the dump by DBpedia",
+  "maxDimensions" : "Object containing the dimensions of the table, they are indexes so they start both from 0",
+  "headersCleaned" : "Array of headers of the table, ordered lexicographically and cleaned from extra HTML fields",
+  "keyColumn" : "Number of the key column according to T2K heuristic"
+},
+{
+  "_id" : "MongoDB internal id",
+  "className" : "Used by Morphia to map with entities",
+  "id" : "http://dbpedia.org/resource/Giochi_belli",
+  "cells" : [
+    {
+      "className" : "Used by Morphia to map with entities",
+      "innerHTML" : "HTML code of the cell",
+      "isHeader" : "true if this cell is a header",
+      "type" : "Old unused field",
+      "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
+      "cleanedText" : "Harry potter e i doni della morte - Electronic Arts"
+    },
+    {
+      "className" : "Used by Morphia to map with entities",
+      "innerHTML" : "HTML code of the cell",
+      "isHeader" : "true if this cell is a header",
+      "type" : "Old unused field",
+      "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
+      "cleanedText" : "Metro 2033 - 4AGames"
+    },
+    {
+      "className" : "Used by Morphia to map with entities",
+      "innerHTML" : "HTML code of the cell",
+      "isHeader" : "true if this cell is a header",
+      "type" : "Old unused field",
+      "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
+      "cleanedText" : "Divinity Original Sin 2 - Larian Studios"
+    },
+    {
+      "className" : "Used by Morphia to map with entities",
+      "innerHTML" : "HTML code of the cell",
+      "isHeader" : "true if this cell is a header",
+      "type" : "Old unused field",
+      "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
+      "cleanedText" : "Skyrim - Bethesda"
+    }
+  ],
+  "beginIndex" : "Field from the dump by DBpedia",
+  "endIndex" : "Field from the dump by DBpedia",
+  "referenceContext" : "Name of the Wikipedia page the table was taken from",
+  "type" : "Field from the dump by DBpedia",
+  "classe" : "Field from the dump by DBpedia",
+  "maxDimensions" : "Object containing the dimensions of the table, they are indexes so they start both from 0",
+  "headersCleaned" : "Array of headers of the table, ordered lexicographically and cleaned from extra HTML fields",
+  "keyColumn" : "Number of the key column according to T2K heuristic"
+},{
+  "_id" : "MongoDB internal id",
+  "className" : "Used by Morphia to map with entities",
+  "id" : "http://dbpedia.org/resource/Libri_belli",
+  "cells" : [
+    {
+      "className" : "Used by Morphia to map with entities",
+      "innerHTML" : "HTML code of the cell",
+      "isHeader" : "true if this cell is a header",
+      "type" : "Old unused field",
+      "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
+      "cleanedText" : "Harry Potter e la pietra filosofale - J. K. Rowling"
+    },
+    {
+      "className" : "Used by Morphia to map with entities",
+      "innerHTML" : "HTML code of the cell",
+      "isHeader" : "true if this cell is a header",
+      "type" : "Old unused field",
+      "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
+      "cleanedText" : "Il Gattopardo - Giuseppe Tomasi"
+    },
+    {
+      "className" : "Used by Morphia to map with entities",
+      "innerHTML" : "HTML code of the cell",
+      "isHeader" : "true if this cell is a header",
+      "type" : "Old unused field",
+      "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
+      "cleanedText" : "Metro 2033 - Dmitrij Gluchovskij"
+    },
+    {
+      "className" : "Used by Morphia to map with entities",
+      "innerHTML" : "HTML code of the cell",
+      "isHeader" : "true if this cell is a header",
+      "type" : "Old unused field",
+      "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
+      "cleanedText" : "Fondazione - Judovič Azimov"
+    }
+  ],
+  "beginIndex" : "Field from the dump by DBpedia",
+  "endIndex" : "Field from the dump by DBpedia",
+  "referenceContext" : "Name of the Wikipedia page the table was taken from",
+  "type" : "Field from the dump by DBpedia",
+  "classe" : "Field from the dump by DBpedia",
+  "maxDimensions" : "Object containing the dimensions of the table, they are indexes so they start both from 0",
+  "headersCleaned" : "Array of headers of the table, ordered lexicographically and cleaned from extra HTML fields",
+  "keyColumn" : "Number of the key column according to T2K heuristic"
+}
+]
