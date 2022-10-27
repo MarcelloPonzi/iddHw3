@@ -38,7 +38,7 @@
   ],
   "beginIndex" : "Field from the dump by DBpedia",
   "endIndex" : "Field from the dump by DBpedia",
-  !!!"referenceContext" : "Film belli",
+  "referenceContext" : "Film belli",
   "type" : "Field from the dump by DBpedia",
   "classe" : "Field from the dump by DBpedia",
   "maxDimensions" : "Object containing the dimensions of the table, they are indexes so they start both from 0",
