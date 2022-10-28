@@ -10,115 +10,101 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.Version;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.text.ParseException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 
 public class LuceneIndexWriter {
 
-	String indexPath = "target/idx";
+	private String indexPath = "target/idx";
+	private String jsonFilePath = "Resources/sampleDataSet.json";
+	private IndexWriter indexWriter = null;
 
-	String jsonFilePath = "Resources/sampleDataSet.json";
-
-	IndexWriter indexWriter = null;
-
-	public LuceneIndexWriter(String indexPath, String jsonFilePath) {
-		this.indexPath = indexPath;
-		this.jsonFilePath = jsonFilePath;
-	}
+	public LuceneIndexWriter() {}
 
 	public void createIndex(){
-		JSONArray jsonObjects = parseJSONFile();
-		openIndex();
-		addDocuments(jsonObjects);
+		JSONArray jsonArray = parseJSONFile();
+		openIndex(indexPath);		
+		indexdocs(jsonArray);		
 		finish();
+	}
+
+	private void indexdocs(JSONArray jsonArray) {
+		try {
+		for (Object o : jsonArray) {
+			JSONObject table = (JSONObject) o;
+			String id = (String) table.get("id");
+			Document doc = new Document();
+			
+			
+			// loop array of cells
+			JSONArray celle = (JSONArray) table.get("cells");
+			doc.add(new TextField("id", id.toString(), Field.Store.YES ));
+			System.out.println("Creato doc con id: " + id.toString());
+			String cleanedCells = "";
+			
+			for (Object c : celle)
+			{				
+				JSONObject cella = (JSONObject) c;
+				cleanedCells = cleanedCells.concat("\n" + cella.get("cleanedText").toString());								
+			}
+			doc.add(new TextField("keywords",cleanedCells ,Field.Store.YES));
+			System.out.println("Aggiunte al doc le celle con parole chiave " + cleanedCells);
+			indexWriter.addDocument(doc);
+			}
+		}catch(IOException e) {
+			System.out.println(e);
+		}	
 	}
 
 	/**
 	 * Parse a Json file. 
 	 */
-	public void parseJSONFile(){
+	public JSONArray parseJSONFile(){
 
-		//Get the JSON file, in this case is in ~/target/sampleDataSet.json
-		InputStream jsonFile =  getClass().getResourceAsStream(jsonFilePath);
-		Reader readerJson = new InputStreamReader(jsonFile);
-		JSONParser parser = new JSONParser();
-		JSONArray jsonArray;
+		//Get the JSON file, in this case is in ~/Resources/sampleDataSet.json
+		JSONArray jsonArray = null;
 		try {
-			jsonArray = (JSONArray) parser.parse(readerJson); //rivedere possibili reader
-
-			//TO-DO crea doc da indicizzare (invocare qui) e aggiungi ai suoi field id e una stringa che è la concat. delle stringhe
-			// dei cleaned text
-			for (Object o : jsonArray) {
-
-				JSONObject table = (JSONObject) o;
-				String id = (String) table.get("id");
-
-				// loop array of cells
-				JSONArray celle = (JSONArray) table.get("cells");
-
-				for (Object c : celle)
-				{
-					JSONObject cella = (JSONObject) c;
-					String text = (String) cella.get("cleanedText"); 
-				}
-			}
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (org.json.simple.parser.ParseException e) {
-				e.printStackTrace();
-			} 
+			jsonArray = (JSONArray)new JSONParser().parse(new FileReader(jsonFilePath));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jsonArray; 
 	}
 
-
-	//da aggiornare
-	public boolean openIndex(){
+	public boolean openIndex(String path){
+		Path indexPath = Paths.get(path);
 		try {
-			Directory dir = FSDirectory.open(new File(indexPath));
-			Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_48);
-			IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_48, analyzer);
+			Directory dir = FSDirectory.open(indexPath);						
+			Analyzer analyzer = new StandardAnalyzer();
+			IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
 
-			//Always overwrite the directory
+			//Riscrivi la directory
 			iwc.setOpenMode(OpenMode.CREATE);
 			indexWriter = new IndexWriter(dir, iwc);
 
 			return true;
 		} catch (Exception e) {
 			System.err.println("Error opening the index. " + e.getMessage());
-
 		}
 		return false;
 	}
 
-	/**
-	 * Add documents to the index
-	 */
-	public void addDocuments(JSONArray jsonObjects){
-		for(JSONObject object : (List<JSONObject>) jsonObjects){
-			Document doc = new Document();
-			for(String field : (Set<String>) object.keySet()){
-				Class type = object.get(field).getClass();
-				if(type.equals(String.class)){
-					doc.add(new StringField(field, (String)object.get(field), Field.Store.NO));
-				}
-			}
-			try {
-				indexWriter.addDocument(doc);
-			} catch (IOException ex) {
-				System.err.println("Error adding documents to the index. " +  ex.getMessage());
-			}
-		}
-	}
 
 	/**
 	 * Write the document to the index and close it
@@ -131,6 +117,5 @@ public class LuceneIndexWriter {
 			System.err.println("We had a problem closing the index: " + ex.getMessage());
 		}
 	}
-
 
 }
