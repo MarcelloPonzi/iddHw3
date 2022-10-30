@@ -48,8 +48,15 @@ public class Merger {
             }
 
             // a questo punto set2count completato
-
-
         }
+
+        //ordina il set2count in ordine decrescente (DA TESTARE)
+        set2count
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEach(entry -> System.out.println(
+                        "Doc : " + entry.getKey()  + "\t\t"  + " : "  + entry.getValue()
+                ));
     }
 }
