@@ -1,7 +1,5 @@
 package iddHw3;
 
-
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
@@ -19,49 +17,53 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
-
 public class LuceneIndexWriter {
 
 	private String indexPath = "target/idx";
 	private String jsonFilePath = "Resources/sampleDataSet.json";
 	private IndexWriter indexWriter = null;
 
+	public int tableCounter = 0;
+
 	public LuceneIndexWriter() {}
 
 	public void createIndex(){
 		JSONArray jsonArray = parseJSONFile();
 		openIndex(indexPath);		
-		indexdocs(jsonArray);		
+		tableCounter = indexDocs(jsonArray);
 		finish();
 	}
 
-	private void indexdocs(JSONArray jsonArray) {
+	private int indexDocs(JSONArray jsonArray) {
+		int counter = 0;
 		try {
-		for (Object o : jsonArray) {
-			JSONObject table = (JSONObject) o;
-			String id = (String) table.get("id");
-			Document doc = new Document();
-			
-			
-			// loop array of cells
-			JSONArray celle = (JSONArray) table.get("cells");
-			doc.add(new TextField("id", id.toString(), Field.Store.YES ));
-			System.out.println("Creato doc con id: " + id.toString());
-			String cleanedCells = "";
-			
-			for (Object c : celle)
-			{				
-				JSONObject cella = (JSONObject) c;
-				cleanedCells = cleanedCells.concat("\n" + cella.get("cleanedText").toString());								
+			for (Object o : jsonArray) {
+				counter++;
+				JSONObject table = (JSONObject) o;
+				String id = (String) table.get("id");
+				Document doc = new Document();
+
+
+				// loop array of cells
+				JSONArray celle = (JSONArray) table.get("cells");
+				doc.add(new TextField("id", id.toString(), Field.Store.YES ));
+				System.out.println("Creato doc con id: " + id.toString());
+				String cleanedCells = "";
+
+				for (Object c : celle) {
+					JSONObject cella = (JSONObject) c;
+					cleanedCells = cleanedCells.concat("\n" + cella.get("cleanedText").toString());
+				}
+
+				doc.add(new TextField("keywords",cleanedCells ,Field.Store.YES));
+				System.out.println("Aggiunte al doc le celle con parole chiave " + cleanedCells);
+				indexWriter.addDocument(doc);
 			}
-			doc.add(new TextField("keywords",cleanedCells ,Field.Store.YES));
-			System.out.println("Aggiunte al doc le celle con parole chiave " + cleanedCells);
-			indexWriter.addDocument(doc);
-			}
-		}catch(IOException e) {
+		} catch (IOException e) {
 			System.out.println(e);
-		}	
+		}
+		System.out.println("INDEXWRITER: Sono stati indicizzati "+counter+" documenti.");
+		return counter;
 	}
 
 	/**
