@@ -1,9 +1,12 @@
 package iddHw3;
 
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 
@@ -26,13 +29,13 @@ public class Merger {
     }
 
     //prende in input il size restituito da indexDocs all'interno di LuceneIndexWriter
-    public void merge(LinkedList<String> termList, int size) throws IOException {
+    public void merge(LinkedList<String> termList, int size) throws IOException, ParseException {
 
         for (String term : termList) {
 
-            System.out.println("Ricerca in corso sul termine: "+term);
-
-            Query query = new TermQuery(new Term("keywords", term));
+            System.out.println("\nRicerca in corso sul termine: "+term);
+            QueryParser parser = new QueryParser("keywords", new StandardAnalyzer());
+            Query query = parser.parse(String.valueOf(new TermQuery(new Term("keywords", term))));
             TopDocs hits = searcher.search(query,size);
 
             // Il for funziona ma i termini della linked list nel main devono essere esattamente quelli indicizzati
@@ -44,10 +47,10 @@ public class Merger {
 
                 if (this.set2count.containsKey(id)) {
                     this.set2count.put(id, this.set2count.get(id) + 1);
-                    System.out.println("Incremento contatore per termine " + term);
+                    System.out.println("Incremento contatore per la tabella " + id + " contentente il termine " + term);
                 }
                 else {
-                    System.out.println("Aggiungo al set2count termine " + term);
+                    System.out.println("Aggiungo al set2count la tabella "+ id + " contenente il termine " + term);
                     set2count.put(id, 1);
                 }
             }
@@ -55,7 +58,8 @@ public class Merger {
             // a questo punto set2count completato
         }
 
-        //ordina il set2count in ordine decrescente (DA TESTARE)
+        System.out.println("\nLa query ha prodotto i seguenti risultati:\n");
+        //ordina il set2count in ordine decrescente
         set2count
                 .entrySet()
                 .stream()
