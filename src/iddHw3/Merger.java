@@ -25,6 +25,7 @@ public class Merger {
         this.set2count = new HashMap<String, Integer>();
     }
 
+    //prende in input il size restituito da indexDocs all'interno di LuceneIndexWriter
     public void merge(LinkedList<String> termList, int size) throws IOException {
 
         for (String term : termList) {
@@ -34,7 +35,9 @@ public class Merger {
             Query query = new TermQuery(new Term("keywords", term));
             TopDocs hits = searcher.search(query,size);
 
-            for(ScoreDoc scoreDoc : hits.scoreDocs) {
+            //Il for seguente non parte, scoreDocs.length risulta essere pari a zero
+            for (int i = 0; i < hits.scoreDocs.length; i++) {
+                ScoreDoc scoreDoc = hits.scoreDocs[i];
                 Document doc = searcher.doc(scoreDoc.doc);
                 String id = String.valueOf(doc.get("id"));
 
@@ -56,7 +59,7 @@ public class Merger {
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .forEach(entry -> System.out.println(
-                        "Doc : " + entry.getKey()  + "\t\t"  + " : "  + entry.getValue()
+                        "Doc : " + entry.getKey()  + "\t"  + " : "  + entry.getValue()
                 ));
     }
 }
