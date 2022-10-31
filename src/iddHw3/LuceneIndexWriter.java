@@ -2,6 +2,7 @@ package iddHw3;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.codecs.simpletext.SimpleTextCodec;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -37,22 +38,22 @@ public class LuceneIndexWriter {
 	private int indexDocs(JSONArray jsonArray) {
 		int counter = 0;
 		try {
-			for (Object o : jsonArray) {
+			for (Object o : jsonArray) {	//questo for scorre le tabelle
 				counter++;
 				JSONObject table = (JSONObject) o;
 				String id = (String) table.get("id");
 				Document doc = new Document();
 
 
-				// loop array of cells
+				// loop array of cells (righe)
 				JSONArray celle = (JSONArray) table.get("cells");
-				doc.add(new TextField("id", id.toString(), Field.Store.YES ));
-				System.out.println("Creato doc con id: " + id.toString());
+				doc.add(new TextField("id", id, Field.Store.YES ));
+				System.out.println("Creato doc con id: " + id);
 				String cleanedCells = "";
 
 				for (Object c : celle) {
 					JSONObject cella = (JSONObject) c;
-					cleanedCells = cleanedCells.concat("\n" + cella.get("cleanedText").toString());
+					cleanedCells = cleanedCells.concat(cella.get("cleanedText").toString()+"\n");
 				}
 
 				doc.add(new TextField("keywords",cleanedCells ,Field.Store.YES));
@@ -95,6 +96,7 @@ public class LuceneIndexWriter {
 			Directory dir = FSDirectory.open(indexPath);						
 			Analyzer analyzer = new StandardAnalyzer();
 			IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
+			iwc.setCodec(new SimpleTextCodec());
 
 			//Riscrivi la directory
 			iwc.setOpenMode(OpenMode.CREATE);
