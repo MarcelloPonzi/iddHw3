@@ -17,6 +17,14 @@
       "isHeader" : "true if this cell is a header",
       "type" : "Old unused field",
       "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
+      "cleanedText" : "Potter Harry e l'ordine della fenice - Mike Newell"
+    },
+    {
+      "className" : "Used by Morphia to map with entities",
+      "innerHTML" : "HTML code of the cell",
+      "isHeader" : "true if this cell is a header",
+      "type" : "Old unused field",
+      "Coordinates" : "Object containing the coordinates of the cell, starting from 0",
       "cleanedText" : "Il padrino - Francis Ford Coppola"
     },
     {

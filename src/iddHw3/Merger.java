@@ -35,7 +35,8 @@ public class Merger {
             Query query = new TermQuery(new Term("keywords", term));
             TopDocs hits = searcher.search(query,size);
 
-            //Il for seguente non parte, scoreDocs.length risulta essere pari a zero
+            // Il for funziona ma i termini della linked list nel main devono essere esattamente quelli indicizzati
+            // e se metti maiuscole non funziona più.
             for (int i = 0; i < hits.scoreDocs.length; i++) {
                 ScoreDoc scoreDoc = hits.scoreDocs[i];
                 Document doc = searcher.doc(scoreDoc.doc);
@@ -46,6 +47,7 @@ public class Merger {
                     System.out.println("Incremento contatore per termine " + term);
                 }
                 else {
+                    System.out.println("Aggiungo al set2count termine " + term);
                     set2count.put(id, 1);
                 }
             }
