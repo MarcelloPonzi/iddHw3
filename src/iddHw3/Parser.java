@@ -34,10 +34,14 @@ public class Parser {
             BufferedReader bf = new BufferedReader(new FileReader(jsonFilePath));
             String s;
 
-            while ((s = bf.readLine()) != null) {
-
+            //per evitare il problema dell'out of memory di Java teniamo un ciclo ridotto
+            //che scorre soltanto le prime i linee (quindi tabelle)
+            int i = 10;
+            while ( i>0) {
+                s = bf.readLine();
                 JsonObject object = JsonParser.parseString(s).getAsJsonObject();
                 jsonArray.add(object);
+                i--;
             }
             //Metodo precedente, commentato perchè non funzionante con la formattazione del table.json
             //jsonArray = (JSONArray)new JSONParser().parse(new FileReader(jsonFilePath));

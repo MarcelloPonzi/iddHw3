@@ -1,6 +1,7 @@
 package iddHw3;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.codecs.simpletext.SimpleTextCodec;
@@ -43,19 +44,19 @@ public class LuceneIndexWriter {
 		try {
 			for (Object o : jsonArray) {	//questo for scorre le tabelle
 				counter++;
-				JSONObject table = (JSONObject) o;
-				String id = (String) table.get("id");
+				JsonObject table = (JsonObject) o;
+				String id = String.valueOf(table.get("id"));
 				Document doc = new Document();
 
 
 				// loop array of cells (righe)
-				JSONArray celle = (JSONArray) table.get("cells");
+				JsonArray celle = (JsonArray) table.get("cells");
 				doc.add(new TextField("id", id, Field.Store.YES ));
 				System.out.println("Creato doc con id: " + id);
 				String cleanedCells = "";
 
 				for (Object c : celle) {
-					JSONObject cella = (JSONObject) c;
+					JsonObject cella = (JsonObject) c;
 					cleanedCells = cleanedCells.concat(cella.get("cleanedText").toString()+"\n");
 				}
 
