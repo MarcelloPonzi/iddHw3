@@ -21,15 +21,19 @@ import java.nio.file.Paths;
 public class LuceneIndexWriter {
 
 	private String indexPath = "target/idx";
-	private String jsonFilePath = "Resources/sampleDataSet.json";
+
 	private IndexWriter indexWriter = null;
+
+	private Parser parser;
 
 	public int tableCounter = 0;
 
-	public LuceneIndexWriter() {}
+	public LuceneIndexWriter(String path){
+		this.parser = new Parser(path);
+	}
 
 	public void createIndex(){
-		JSONArray jsonArray = parseJSONFile();
+		JSONArray jsonArray = parser.parseJSONFile();
 		openIndex(indexPath);		
 		tableCounter = indexDocs(jsonArray);
 		finish();
@@ -63,31 +67,8 @@ public class LuceneIndexWriter {
 		} catch (IOException e) {
 			System.out.println(e);
 		}
-		System.out.println("INDEXWRITER: Sono stati indicizzati "+counter+" documenti.");
+		System.out.println("LUCENE INDEX WRITER: Sono stati indicizzati "+counter+" documenti.");
 		return counter;
-	}
-
-	/**
-	 * Parse a Json file. 
-	 */
-	public JSONArray parseJSONFile(){
-
-		//Get the JSON file, in this case is in ~/Resources/sampleDataSet.json
-		JSONArray jsonArray = null;
-		try {
-			jsonArray = (JSONArray)new JSONParser().parse(new FileReader(jsonFilePath));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return jsonArray; 
 	}
 
 	public boolean openIndex(String path){
