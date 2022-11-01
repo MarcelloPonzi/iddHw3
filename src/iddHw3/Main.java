@@ -14,7 +14,7 @@ public class Main {
 	public static void main(String[] args) throws IOException, ParseException {
 
 		// questo costruttore invoca a sua volta il costrutture del parser con il path inserito
-		LuceneIndexWriter liw = new LuceneIndexWriter("Resources/sampleDataSet.json");
+		LuceneIndexWriter liw = new LuceneIndexWriter("Resources/tables.json");
 		liw.createIndex();
 		System.out.println("MAIN: Sono stati indicizzati "+liw.tableCounter+" documenti.\n");
 

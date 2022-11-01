@@ -1,9 +1,14 @@
 package iddHw3;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,19 +24,27 @@ public class Parser {
     /**
      * Parse a Json file.
      */
-    public JSONArray parseJSONFile(){
+    public JsonArray parseJSONFile() {
 
         //Get the JSON file, in this case is in ~/Resources/sampleDataSet.json
-        JSONArray jsonArray = null;
+        JsonArray jsonArray = new JsonArray();
         try {
-            jsonArray = (JSONArray)new JSONParser().parse(new FileReader(jsonFilePath));
+
+            //Si legge il file riga riga per riga eseguendo il parse, da testare
+            BufferedReader bf = new BufferedReader(new FileReader(jsonFilePath));
+            String s;
+
+            while ((s = bf.readLine()) != null) {
+
+                JsonObject object = JsonParser.parseString(s).getAsJsonObject();
+                jsonArray.add(object);
+            }
+            //Metodo precedente, commentato perchè non funzionante con la formattazione del table.json
+            //jsonArray = (JSONArray)new JSONParser().parse(new FileReader(jsonFilePath));
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

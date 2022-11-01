@@ -1,5 +1,6 @@
 package iddHw3;
 
+import com.google.gson.JsonArray;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.codecs.simpletext.SimpleTextCodec;
@@ -11,8 +12,6 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -33,13 +32,13 @@ public class LuceneIndexWriter {
 	}
 
 	public void createIndex(){
-		JSONArray jsonArray = parser.parseJSONFile();
+		JsonArray jsonArray = parser.parseJSONFile();
 		openIndex(indexPath);		
 		tableCounter = indexDocs(jsonArray);
 		finish();
 	}
 
-	private int indexDocs(JSONArray jsonArray) {
+	private int indexDocs(JsonArray jsonArray) {
 		int counter = 0;
 		try {
 			for (Object o : jsonArray) {	//questo for scorre le tabelle
