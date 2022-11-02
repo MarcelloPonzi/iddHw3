@@ -72,7 +72,7 @@ public class LuceneIndexWriter {
 			Document doc = new Document();
 			JsonArray celle = (JsonArray) table.get("cells");
 			doc.add(new TextField("id", id, Field.Store.YES ));
-			System.out.println("Creato doc con id: " + id);
+			//System.out.println("Creato doc con id: " + id);
 			String cleanedCells = "";
 
 			for (Object c : celle) {
@@ -81,9 +81,14 @@ public class LuceneIndexWriter {
 			}
 
 			doc.add(new TextField("keywords",cleanedCells ,Field.Store.YES));
-			System.out.println("Aggiunte al doc le celle con parole chiave " + cleanedCells);
+			//System.out.println("Aggiunte al doc le celle con parole chiave " + cleanedCells);
 			indexWriter.addDocument(doc);
-			indexWriter.commit();			// qui faccio il commit, provare anche a metterlo fuori dal ciclo
+
+			if (this.tableCounter % 100000 == 0) {
+				System.out.println("Indicizzati " + this.tableCounter + " documenti.");
+				indexWriter.commit();			// qui faccio il commit, provare anche a metterlo fuori dal ciclo
+			}
+
 		}
 		System.out.println("LUCENE INDEX WRITER: Sono stati indicizzati "+this.tableCounter+" documenti.");
 		indexWriter.close();

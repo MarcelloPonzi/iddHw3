@@ -28,7 +28,7 @@ public class Main {
 		 */
 		//liw.parseAndCreateIndex("Resources/tables.json");
 
-		System.out.println("MAIN: Sono stati indicizzati "+liw.tableCounter+" documenti.\n");
+		//System.out.println("MAIN: Sono stati indicizzati "+liw.tableCounter+" documenti.\n");
 
 		Path path = Paths.get("target/idx");
 		Directory directory = FSDirectory.open(path);
@@ -46,6 +46,7 @@ public class Main {
 
 		// di seguito potremmo assegnare la lista dei top k risultati ad una variabile (oltre a stamparli
 		// a schermo)
-		m.merge(listaTest, 200);	//come secondo parametro ci va il numero di tabelle (liw.tableCounter)
+		// Il numero di tabelle è 550271, trovato durante l'indicizzazione
+		m.merge(listaTest, 550271);	//come secondo parametro ci va il numero di tabelle (liw.tableCounter)
 	}
 }

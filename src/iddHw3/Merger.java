@@ -38,8 +38,6 @@ public class Merger {
             Query query = parser.parse(String.valueOf(new TermQuery(new Term("keywords", term))));
             TopDocs hits = searcher.search(query,size);
 
-            // Il for funziona ma i termini della linked list nel main devono essere esattamente quelli indicizzati
-            // e se metti maiuscole non funziona più.
             for (int i = 0; i < hits.scoreDocs.length; i++) {
                 ScoreDoc scoreDoc = hits.scoreDocs[i];
                 Document doc = searcher.doc(scoreDoc.doc);
@@ -54,18 +52,38 @@ public class Merger {
                     set2count.put(id, 1);
                 }
             }
-
-            // a questo punto set2count completato
         }
 
         System.out.println("\nLa query ha prodotto i seguenti risultati:\n");
+
         //ordina il set2count in ordine decrescente
+        ArrayList<Map.Entry> listaOrdinata = new ArrayList<Map.Entry>();
         set2count
                 .entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .forEach(entry -> System.out.println(
-                        "Doc : " + entry.getKey()  + "\t"  + " : "  + entry.getValue()
-                ));
+                .forEach(entry -> {
+                    listaOrdinata.add(entry);
+                            /**
+                             * le due righe seguenti sono commentate perché la stampa è ora affidata al blocco
+                             * successivo in cui si stampano solo i documenti che hanno il punteggio più alto
+                             */
+                    //if(entry.getValue()>1)
+                        //System.out.println("Doc : " + entry.getKey()  + "\t"  + " : "  + entry.getValue());
+                }
+                );
+
+        /**
+         * blocco di codice per la stampa dei risultati migliori.
+         * Bisognerebbe aggiungere un'altra condizione che stampi anche le entries che hanno come value
+         * maxValue - 1
+         */
+        Object maxValue = listaOrdinata.get(0).getValue();
+        maxValue = (Integer) maxValue;
+        for (Map.Entry entry : listaOrdinata) {
+            if((entry.getValue() == maxValue)) {
+                System.out.println("Doc : " + entry.getKey()  + "\t"  + " : "  + entry.getValue());
+            }
+        }
     }
 }
