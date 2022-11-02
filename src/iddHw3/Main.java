@@ -30,9 +30,19 @@ public class Main {
 
 		//System.out.println("MAIN: Sono stati indicizzati "+liw.tableCounter+" documenti.\n");
 
+		/**
+		 * Calcolo delle statistiche
+		 */
+		Statistiche statistiche = new Statistiche("Resources/tables.json");
+		//statistiche.calcolaNumeroMedioDiDimensioni();
+		statistiche.calcolaNumeroMedioValoriNulli();
+
+
+
+		/*
+
 		Path path = Paths.get("target/idx");
 		Directory directory = FSDirectory.open(path);
-
 
 		//lista di prova da dare in input al merger - DA CANCELLARE POI
 		LinkedList<String> listaTest = new LinkedList<>();
@@ -41,12 +51,11 @@ public class Main {
 		listaTest.add("GATTOPARDO");
 		listaTest.add("qualcosa prova");
 
-		//va creata la funzione che salvi come LinkedList la query da fare in modo da passarla in input al merge
 		Merger m = new Merger(directory);
 
-		// di seguito potremmo assegnare la lista dei top k risultati ad una variabile (oltre a stamparli
-		// a schermo)
 		// Il numero di tabelle è 550271, trovato durante l'indicizzazione
 		m.merge(listaTest, 550271);	//come secondo parametro ci va il numero di tabelle (liw.tableCounter)
+
+		 */
 	}
 }
