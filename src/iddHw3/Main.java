@@ -14,6 +14,7 @@ public class Main {
 	public static void main(String[] args) throws IOException, ParseException {
 
 		// questo costruttore invoca a sua volta il costrutture del parser con il path inserito
+		//Il file tables.json va inserito manualmente all'interno delle Resources
 		LuceneIndexWriter liw = new LuceneIndexWriter("Resources/tables.json");
 
 		/**
@@ -26,25 +27,24 @@ public class Main {
 		/**
 		 * Questo metodo dovrebbe evitare il problema della memoria facendo commit ad ogni riga
 		 */
-		//liw.parseAndCreateIndex("Resources/tables.json");
+		liw.parseAndCreateIndex("Resources/tables.json");
 
-		//System.out.println("MAIN: Sono stati indicizzati "+liw.tableCounter+" documenti.\n");
 
 		/**
 		 * Calcolo delle statistiche
 		 */
 		Statistiche statistiche = new Statistiche("Resources/tables.json");
-		//statistiche.calcolaNumeroMedioDiDimensioni();
-		//statistiche.calcolaNumeroMedioValoriNulli();
-		//statistiche.calcolaDistribuzioneRigheColonne();
+		statistiche.calcolaNumeroMedioDiDimensioni();
+		statistiche.calcolaNumeroMedioValoriNulli();
+		statistiche.calcolaDistribuzioneRigheColonne();
 		statistiche.calcolaDistribuzioneValoriDistinti();
 
-		/*
+
 
 		Path path = Paths.get("target/idx");
 		Directory directory = FSDirectory.open(path);
 
-		//lista di prova da dare in input al merger - DA CANCELLARE POI
+		//lista di prova da dare in input al merger
 		LinkedList<String> listaTest = new LinkedList<>();
 		listaTest.add("Harry Potter");
 		listaTest.add("PADRINO");
@@ -56,6 +56,6 @@ public class Main {
 		// Il numero di tabelle è 550271, trovato durante l'indicizzazione
 		m.merge(listaTest, 550271);	//come secondo parametro ci va il numero di tabelle (liw.tableCounter)
 
-		 */
+
 	}
 }
