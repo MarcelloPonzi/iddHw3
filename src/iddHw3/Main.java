@@ -15,7 +15,19 @@ public class Main {
 
 		// questo costruttore invoca a sua volta il costrutture del parser con il path inserito
 		LuceneIndexWriter liw = new LuceneIndexWriter("Resources/tables.json");
-		liw.createIndex();
+
+		/**
+		 * Metodo commentato perché funziona soltanto con il JSON di prova formattato.
+		 * Il nostro JSON è Line-separated quindi bisogna usare il metodo apposito della classe
+		 * LuceneIndexWriter chiamato parseAndCreateIndex() per evitare problemi di memoria
+		 */
+		//liw.createIndex();
+
+		/**
+		 * Questo metodo dovrebbe evitare il problema della memoria facendo commit ad ogni riga
+		 */
+		//liw.parseAndCreateIndex("Resources/tables.json");
+
 		System.out.println("MAIN: Sono stati indicizzati "+liw.tableCounter+" documenti.\n");
 
 		Path path = Paths.get("target/idx");
@@ -34,6 +46,6 @@ public class Main {
 
 		// di seguito potremmo assegnare la lista dei top k risultati ad una variabile (oltre a stamparli
 		// a schermo)
-		m.merge(listaTest, liw.tableCounter);
+		m.merge(listaTest, 200);	//come secondo parametro ci va il numero di tabelle (liw.tableCounter)
 	}
 }
