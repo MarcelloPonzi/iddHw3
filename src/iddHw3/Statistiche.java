@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Statistiche {
 
@@ -95,7 +96,36 @@ public class Statistiche {
      * Scorriamo tutte le tabelle e ogni volta che troviamo una tabella che ha un numero di righe presente
      * nella mappa, incrementiamo il valore corrispondente a tale chiave.
      */
+    public void calcolaDistribuzioneRighe() throws IOException {
+        HashMap<Integer,Integer> distribuzioneRighe = new HashMap<Integer, Integer>();
+        HashMap<Integer,Integer> distribuzioneColonne = new HashMap<Integer, Integer>();
 
+        BufferedReader br = new BufferedReader(new FileReader(jsonFilePath));
+        String line;
+
+        while ((line=br.readLine()) != null) {
+            JsonObject table = JsonParser.parseString(line).getAsJsonObject();
+            JsonObject maxDimensions = table.get("maxDimensions").getAsJsonObject();
+            if(distribuzioneRighe.containsKey(maxDimensions.get("row").getAsInt())) {
+                distribuzioneRighe.put(maxDimensions.get("row").getAsInt(), distribuzioneRighe.get(maxDimensions.get("row").getAsInt()) + 1);
+            } else {
+                distribuzioneRighe.put(maxDimensions.get("row").getAsInt(), 1);
+            }
+            if(distribuzioneColonne.containsKey(maxDimensions.get("column").getAsInt())) {
+                distribuzioneColonne.put(maxDimensions.get("column").getAsInt(), distribuzioneColonne.get(maxDimensions.get("column").getAsInt()) + 1);
+            } else {
+                distribuzioneColonne.put(maxDimensions.get("column").getAsInt(), 1);
+            }
+        }
+
+        for (Integer key : distribuzioneRighe.keySet()) {
+            System.out.println(distribuzioneRighe.get(key)+" tabelle hanno "+key+" righe");
+        }
+        System.out.println("\n\n\n");
+        for (Integer key : distribuzioneColonne.keySet()) {
+            System.out.println(distribuzioneColonne.get(key)+" tabelle hanno "+key+" colonne");
+        }
+    }
 
 
 

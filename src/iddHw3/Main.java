@@ -35,8 +35,8 @@ public class Main {
 		 */
 		Statistiche statistiche = new Statistiche("Resources/tables.json");
 		//statistiche.calcolaNumeroMedioDiDimensioni();
-		statistiche.calcolaNumeroMedioValoriNulli();
-
+		//statistiche.calcolaNumeroMedioValoriNulli();
+		statistiche.calcolaDistribuzioneRighe();
 
 
 		/*
