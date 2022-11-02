@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Statistiche {
@@ -96,7 +97,7 @@ public class Statistiche {
      * Scorriamo tutte le tabelle e ogni volta che troviamo una tabella che ha un numero di righe presente
      * nella mappa, incrementiamo il valore corrispondente a tale chiave.
      */
-    public void calcolaDistribuzioneRighe() throws IOException {
+    public void calcolaDistribuzioneRigheColonne() throws IOException {
         HashMap<Integer,Integer> distribuzioneRighe = new HashMap<Integer, Integer>();
         HashMap<Integer,Integer> distribuzioneColonne = new HashMap<Integer, Integer>();
 
@@ -129,17 +130,41 @@ public class Statistiche {
 
 
 
-    //TODO Distribuzione numero di colonne (quante tabelle hanno 1, 2, 3, 4, etc. colonne)
-    /**
-     * Analogo a quello sopra ma col numero di colonne
-     */
-
     //TODO Distribuzione valori distinti (quante colonne hanno 1, 2, 3, 4, etc valori distinti)
     /**
      * Altra mappa che usa come chiave il valore di cleanedText e ogni volta che trova esattamente quella chiave
      * in una tabella ne incrementa il valore.
      */
+    public void calcolaDistribuzioneValoriDistinti() throws IOException {
+        HashMap<Integer,Integer> distribuzioneValoriDistinti = new HashMap<Integer,Integer>();
 
-    //TODO Altro a vostra scelta
+        BufferedReader br = new BufferedReader(new FileReader(jsonFilePath));
+        String line;
+
+        while ((line=br.readLine()) != null) {
+            JsonObject table = JsonParser.parseString(line).getAsJsonObject();
+            JsonArray celle = (JsonArray) table.get("cells");
+            ArrayList<String> valoriDistintiPerTabella = new ArrayList<String>();
+
+            for (Object c : celle) {
+                JsonObject cella = (JsonObject) c;
+                if(!(valoriDistintiPerTabella.contains(cella.get("cleanedText").getAsString()))) {  //se la lista non contiene quel valore
+                    valoriDistintiPerTabella.add(cella.get("cleanedText").getAsString());
+                }
+            }
+
+            int dimensioneLista = valoriDistintiPerTabella.size();
+            if(distribuzioneValoriDistinti.containsKey(dimensioneLista)) {
+                distribuzioneValoriDistinti.put(dimensioneLista, distribuzioneValoriDistinti.get(dimensioneLista)+1);
+            } else {
+                distribuzioneValoriDistinti.put(dimensioneLista, 1);
+            }
+        }
+
+        for (Integer key : distribuzioneValoriDistinti.keySet()) {
+            System.out.println(distribuzioneValoriDistinti.get(key)+" tabelle hanno "+key+" valori distinti");
+        }
+    }
+
 
 }
